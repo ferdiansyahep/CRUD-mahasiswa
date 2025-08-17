@@ -43,3 +43,47 @@ exports.create = async(req,res,next)=>{
         next(err);
       }
 };
+
+// PUT/Update Mahasiswa
+exports.update = async (req, res, next) => {
+    try {
+      const { nim, namaLengkap, kelas, alamat } = req.body;
+  
+      if (!nim) {
+        return response(400, null, "Field nim wajib diisi untuk update", res);
+      }
+  
+      const sql = `
+        UPDATE mahasiswa
+        SET nama_lengkap = ?, kelas = ?, alamat = ?
+        WHERE nim = ?
+      `;
+      const [result] = await db.query(sql, [namaLengkap, kelas, alamat, nim]);
+  
+      if (result.affectedRows === 0) {
+        return response(404, null, "NIM tidak ditemukan", res);
+      }
+      return response(200, { updated: result.affectedRows }, "Data Updated", res);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // Delete Mahasiswa
+exports.remove = async (req, res, next) => {
+    try {
+      const { nim } = req.body;
+      if (!nim) {
+        return response(400, null, "Field nim wajib diisi untuk delete", res);
+      }
+  
+      const [result] = await db.query("DELETE FROM mahasiswa WHERE nim = ?", [nim]);
+  
+      if (result.affectedRows === 0) {
+        return response(404, null, "NIM tidak ditemukan", res);
+      }
+      return response(200, { deleted: result.affectedRows }, "Data Deleted", res);
+    } catch (err) {
+      next(err);
+    }
+  };
