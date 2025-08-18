@@ -1,5 +1,7 @@
+//index.js
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const mahasiswaRoute = require("./routes/mahasiswaRoutes");
 const app = express();
 

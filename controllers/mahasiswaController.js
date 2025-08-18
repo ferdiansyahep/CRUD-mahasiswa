@@ -1,3 +1,4 @@
+//mahasiswaController.js
 const db = require('../connection')
 const response = require('../response')
 
@@ -47,7 +48,7 @@ exports.create = async(req,res,next)=>{
 // PUT/Update Mahasiswa
 exports.update = async (req, res, next) => {
     try {
-      const { nim, namaLengkap, kelas, alamat } = req.body;
+      const { nim, nama_lengkap, kelas, alamat } = req.body;
   
       if (!nim) {
         return response(400, null, "Field nim wajib diisi untuk update", res);
@@ -58,7 +59,7 @@ exports.update = async (req, res, next) => {
         SET nama_lengkap = ?, kelas = ?, alamat = ?
         WHERE nim = ?
       `;
-      const [result] = await db.query(sql, [namaLengkap, kelas, alamat, nim]);
+      const [result] = await db.query(sql, [nama_lengkap, kelas, alamat, nim]);
   
       if (result.affectedRows === 0) {
         return response(404, null, "NIM tidak ditemukan", res);
